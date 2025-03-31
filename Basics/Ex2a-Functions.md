@@ -1,0 +1,366 @@
+---
+title: Functions
+author: 
+    - Andrew Valentine
+    - Louis Moresi
+jupyter: python3
+format:
+  html:
+    code-links: false
+#       - text: Run it here !
+#         icon: rocket-takeoff
+#         ref: https://mybinder.org/v2/gh/ANU-RSES-Education/EMSC-getting-going-with-python/HEAD?labpath=WebBook/Notebooks%2FBinderLandingPage.qmd
+---
+
+::: {.callout-note icon="false"}
+# Summary
+
+In this section we'll discover how to write functions which allow us to store *an algorithm for later use* in a similar way to using variables to store values for later use.
+:::
+
+## Functions
+
+A **function** provides a convenient way to 'wrap up' code to accomplish a particular task. Once a function is written, it can (generally) be used without us needing to know anything about *how* it works. This is a very powerful concept, and complex programs are often made by chaining many functions together.
+
+In general, a function has a well-defined set of **inputs** (sometimes known as the function's 'arguments') and **outputs** (sometimes called the 'return value'). In Python, and most other modern programming languages, a 'function call' looks like
+
+``` python
+output1, output2 = function_name(input1, input2, input3)
+```
+
+We have already encountered a couple of functions: we have used `print()` and `type()`. These are known as 'built-in functions', as they are a core piece of the Python programming language. For a full list of built-ins, see [this page](https://docs.python.org/3.4/library/functions.html) of the official Python documentation. Other functions can be accessed by 'importing' them from 'modules' - we will learn more about this later.
+
+It is easy to write your own functions. This is done by using the `def` command, and writing something like:
+
+``` python
+def function_name(input1, input2, input3):
+    [code to compute outputs...]
+    return output1,output2
+```
+
+Note that `function_name`, `input1`, `output1` etc can be any name you wish to use. In general, a function definition comprises: - The keyword `def`, followed by - The function name, followed by - An opening parenthesis `(`, followed by - Zero or more input variables, followed by - A closing parenthesis `)`, followed by - A colon, `:`
+
+This is all followed by an indented block of code containing zero or more lines of the form - The keyword `return`, followed by - Zero or more variable names (or valid expressions)
+
+For example
+
+``` python
+def addThreeNumbers(first, second, third):
+    return first + second + third
+```
+
+We can then 'call' this function:
+
+``` python
+a = 3
+b = 5
+result = addThreeNumbers(a, b, -1)
+```
+
+The variable `result` should now contain the value `7` (= 3 + 5 - 1).
+
+::: {.callout-tip collapse="true" icon="false"}
+## Exercise 1 - Create a python function
+
+Create the `addThreeNumbers` function and try it out
+
+```{python}
+# A function to add three numbers
+
+
+print("Results: ", ...)
+```
+:::
+
+A few things to notice from this example: - When we 'call' (use) a function, we can give it both named variables (`a` and `b`), and values (`-1`). - The variable names we pass to the function don't need to match the variable names used when 'declaring' (defining) the function - so we can use `a` and `b` instead of `first` and `second`. - The `return` keyword specifies what the function result will be.
+
+Here's a slightly more complicated example, which calculates the sign and absolute value of the input (unless it is zero):
+
+``` python
+def signAndValue(x):
+    if x == 0:
+        print("Unable to handle zero")
+    elif x > 0:
+        return +1, x
+    else:
+        return -1, -x
+
+    print("Hope that helps !")
+```
+
+::: {.callout-tip collapse="true" icon="false"}
+## Exercise 2 - Exploring how functions work
+
+**Try creating this function and see how it behaves.** Some things to think about: - When is the message "Hope that helps !" printed? Why? -
+
+What form does the function result have? What is its type? What about if `x` has the value 0 ? - What is the role of `if/elif/else`? (We'll deal with that question in the next section, but it should be clear enough)
+
+```{python}
+# What does signAndValue() do ?
+
+
+```
+
+You can call this function in two slightly different ways. The first is to write (for example)
+
+``` python
+result = signAndValue(x)
+```
+
+and the second is to write
+
+``` python
+sgn, val = signAndValue(x)
+```
+
+**Try both forms.** What type does each result have? What happens if `x` is 0 ? Look again at the function declaration: can you explain this behaviour?
+:::
+
+### Function arguments
+
+The following function calculates the sum of the integers from `n0` to `N`, inclusive: $\sum_{n=n_0}^N n$.
+
+``` python
+def sumIntegers(N, n0):
+    result = 0
+    for i in range(n0, N+1):
+        result += i
+    return result
+```
+
+Note that the function definition has the upper-limit, `N`, as the first input argument, contrary to what one might expect - the reason for this will soon become clear.
+
+It might usually be the case that we want to start our sum at $n_0 = 1$. Python allows us to provide this as a 'default' value for the `n0` variable, by simply changing the function declaration:
+
+``` python
+def sumIntegers(N, n0=1):
+    result = 0
+    for i in range(n0, N+1):
+        result += i
+    return result
+```
+
+Now, if we call `sumIntegers` with only *one* argument, it is assumed that this is `N`, and `n0` receives its default value. However, if we provide *two* arguments, these are interpreted as `N` and `n0` respectively.
+
+We can have multiple arguments with default values. For example, we can extend our function to compute $\sum_{n=n_0}^N n^{\,p}$ for some power $p$:
+
+``` python
+def sumIntegers(N, n0=1, p=1):
+    result = 0
+    for i in range(n0, N+1):
+        result += i**p
+    return result
+```
+
+If we call this specifying one, two, or three arguments, they are assumed to occur in the same order as in the function declaration (i.e. `N`, `n0`, `p`). However, we can also explicitly specify which arguments we wish to set. For example
+
+``` python
+result = sumIntegers(10, p=2)
+```
+
+would calculate the sum of squares, leaving `n0` set to its default value.
+
+If inputs are not labelled, they are assumed to be provided in the same order as in the function definition. The following function displays the value of each argument: you can use it to check you understand the different ways to call a function.
+
+``` python
+def printArgs(a, b, c=17, d=4.3):
+    print("a is: "+str(a))
+    print("b is: "+str(b))
+    print("c is: "+str(c))
+    print("d is: "+str(d))
+```
+
+::: {.callout-tip collapse="true" icon="false"}
+## Exercise 3 - Optional Arguments / defaults
+
+Here is the original form of `sumIntegers` which you can now **validate to see if it works** as you expected.
+
+```{python}
+def sumIntegers(N, n0):
+    result = 0
+    for i in range(n0, N + 1):
+        result += i
+    return result
+
+```
+
+Now **modify the function to have n0 be an optional argument with a default value**. Does this work as you expected ? When would this behaviour be useful ?
+
+**Run the `printArgs` function for these cases**:
+
+-   `printArgs(1, 2, 3, 4)`
+-   `printArgs(1, 2, 'a', (1,2,3) )`
+-   `printArgs(2, 1, d=4, c=3 )`
+
+```{python}
+def printArgs(a, b, c=17, d=4.3):
+    print("a is: "+str(a))
+    print("b is: "+str(b))
+    print("c is: "+str(c))
+    print("d is: "+str(d))
+```
+
+\*\*Modify the `printArgs` function to return the `type` as well as the value of each argument. Does the default definition set the `type` ?
+:::
+
+Note that the `printArgs()` function above does not contain an explicit `return` statement. It is an example of a function that has 'side-effects': it does something that isn't apparent from knowledge of its outputs. Sometimes, it is necessary to write code with side-effects, especially for data input or output. However, they are a common source of problems, and they should be avoided where possible.
+
+### Scope of variables in functions
+
+When you pass a variable to a function, you effectively create a copy of the information it contains (unless it is a 'list' or 'array' - more on those in a later exercise!). Changing the variable within the function does *not* change the value outside the function, *unless* you pass it back via an output. For example:
+
+``` python
+def increment(x):
+    x += 1
+    print("Inside increment, x is now "+str(x))
+    return x
+
+x = 0
+
+increment(x) # Notice that we don't do anything with the return value here
+print(x)      # x will therefore still be zero
+x = increment(x) # This time we are updating the value of x
+print(x)      # x will be one.
+```
+
+::: {.callout-tip collapse="true" icon="false"}
+## Exercise 4 - Variables within functions
+
+**Try this out, and check you understand what's going on.**
+
+```{python}
+def increment(x):
+    x += 1
+    print("Inside increment, x is now " + str(x))
+    return x
+
+
+x = 0
+increment(x)  # Notice that we don't do anything with the return value here
+print(x)
+...
+
+Try this version of the `increment` function
+
+def increment():
+    global x
+    x += 1
+    print("Inside increment, x is now " + str(x))
+    return x
+```
+
+If you leave out the `global x` then `x` will be undefined in the function as it does not have access to outside variables.
+:::
+
+There is a way to access external (`global`) variables from within functions. They might be used in this situation:
+
+```{python} .noeval
+
+system_is_setup = False
+
+
+def setup():
+    global system_is_setup
+    if system_is_setup == False:
+        # Do system setup tasks
+        ...
+    else:
+        # check system is ok    
+        ...
+    
+    return 
+```
+
+Generally speaking, functions using `global` variables in this way is a poor choice of implementation because some hidden code is modifying the global state without us, as users, being in control or even aware. We do often define variables of this nature when we use python objects that have a special internal (private) state. We will learn about this later.
+
+### Function documentation
+
+To allow anyone to use your function without knowing the details, you need to document it. This appears in the code just after the definition of the function (and other python entities too). This step may seem unimportant at first, but is critical for re-using your code and distributing it to other people ! Another way is to just call `help(<functionname>)` and it will output the documentation.
+
+```{python} .noeval
+help(print)
+```
+
+```{text}
+    Help on built-in function print in module builtins:
+
+    print(\*args, sep=' ', end='\n', file=None, flush=False) 
+        Prints the values to a stream, or to sys.stdout by default.
+        
+    sep
+        string inserted between values, default a space.
+    end
+        string appended after the last value, default a newline.
+    file
+        a file-like object (stream); defaults to the current sys.stdout.
+    flush
+        whether to forcibly flush the stream.
+```
+
+
+Documentation is provided by writing 'docstrings' at the start of any function you create. These consist of blocks of text enclosed in triple inverted commas:
+
+``` python
+"""[Documentation goes here...]"""
+```
+
+In scientific Python, docstrings usually follow a certain style, e.g.:
+
+``` python
+def increment(x):
+    """increment x.
+    
+    Parameters
+    ----------
+    x : integer
+        the number you want to increament
+    
+    Returns
+    -------
+    x : integer
+        incremented x
+    """
+    x += 1
+    print("Inside increment, x is now "+str(x))
+    return x
+```
+
+
+::: {.callout-tip collapse="true" icon="false"}
+## Exercise 4 - Documentation of a function
+
+**Check how the documentation string for the increment function works:** try changing the documentation to see what happens. Do spaces matter ? Does it matter if the docstring is positioned exactly by the `def increment(x):` line ?
+
+```{python}
+def increment(x):
+    """..."""
+    ...
+
+
+help(increment)
+
+```
+
+**Now do the same for the `sumIntegers` function** taking care to indicate default values and what they mean.
+
+:::
+
+---
+
+
+
+### Sandbox
+
+::: {.callout-warning collapse="true" icon="false"}
+
+## Coding scratch space
+
+
+```{python}
+## Scratch space / notepad
+
+print("Comment out this code with the keyboard shortcut !")
+
+
+```
+:::

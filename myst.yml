@@ -1,0 +1,18 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  id: 60d0cdc9-2bb8-4165-9a3c-1c80bce4820f
+  title: Introduction to Python for Earth Scientists
+  jupyter:
+    lite: true
+  # title:
+  # description:
+  # keywords: []
+  # authors: []
+  github: https://github.com/ANU-RSES-Education/EMSC-getting-going-with-python
+  # To autogenerate a Table of Contents, run "myst init --write-toc"
+site:
+  template: book-theme
+  options:
+    #   favicon: favicon.ico
+    logo: Basics/Images/COS-EarthSciences-800.jpg

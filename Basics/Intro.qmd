@@ -1,0 +1,25 @@
+---
+title: Introduction
+author:
+  - Louis Moresi
+format:
+  html:
+    code-links: false
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .qmd
+      format_name: quarto
+      format_version: '1.0'
+      jupytext_version: 1.16.7
+  kernelspec:
+    display_name: Python (Pixi)
+    language: python
+    name: pixi-kernel-python3
+---
+
+In this section ... 
+
+```{python}
+import numpy as np
+```

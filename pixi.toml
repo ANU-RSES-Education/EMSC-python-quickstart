@@ -1,0 +1,14 @@
+[workspace]
+authors = ["Louis Moresi <louis.moresi@anu.edu.au>"]
+channels = ["conda-forge"]
+name = "MYSTMD"
+platforms = ["osx-arm64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+ipykernel = ">=6.29.5,<7"
+numpy = ">=2.2.4,<3"
+quarto = ">=1.6.42,<2"
+pandoc = ">=3.4,<4"
